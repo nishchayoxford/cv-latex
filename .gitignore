@@ -22,3 +22,4 @@ _build/
 .DS_Store
 *.swp
 .vscode/
+*.zip
