@@ -1,0 +1,388 @@
+%---------------------------------------------------------------------------------------------------
+
+%
+%---------------------------------------------------------------------------------------------------
+
+
+%===================================================================================================
+%	DOCUMENT DEFINITION
+%===================================================================================================
+
+%we use article class because we want to fully customize the page and don't use a cv template
+\documentclass[10pt,a4paper]{article}	
+
+%---------------------------------------------------------------------------------------------------
+%	ENCODING
+%---------------------------------------------------------------------------------------------------
+
+%we use utf8 since we want to build from any machine
+\usepackage[utf8]{inputenc}		
+
+%---------------------------------------------------------------------------------------------------
+%	LOGIC
+%---------------------------------------------------------------------------------------------------
+
+% provides \isempty test
+\usepackage{xifthen}
+
+%---------------------------------------------------------------------------------------------------
+%	FONT
+%---------------------------------------------------------------------------------------------------
+
+% some tex-live fonts - choose your own
+
+%\usepackage[defaultsans]{droidsans}
+%\usepackage[default]{comfortaa}
+%\usepackage{cmbright}
+\usepackage[default]{raleway}
+%\usepackage{fetamont}
+%\usepackage[default]{gillius}
+%\usepackage[light,math]{iwona}
+%\usepackage[thin]{roboto}
+\usepackage{hyperref}
+
+% set font default
+\renewcommand*\familydefault{\sfdefault} 	
+\usepackage[T1]{fontenc}
+
+% more font size definitions
+\usepackage{moresize}		
+
+%---------------------------------------------------------------------------------------------------
+%	PAGE LAYOUT  DEFINITIONS
+%---------------------------------------------------------------------------------------------------
+
+%debug page outer frames
+%\usepackage{showframe}			
+
+%define page styles using geometry
+\usepackage[a4paper]{geometry}		
+
+% for example, change the margins to 2 inches all round
+\geometry{top=1.75cm, bottom=-.6cm, left=1.5cm, right=1.5cm} 	
+
+%use customized header
+\usepackage{fancyhdr}		
+\pagestyle{fancy}
+
+%less space between header and content
+\setlength{\headheight}{-5pt}		
+
+%customize entries left, center, and right
+\lhead{}
+\chead{\small{
+  Nishchay Tiwari $\cdot$ 
+  Wallingford, UK $\cdot$ 
+  \textcolor{sectcol}{\textbf{\href{https://www.linkedin.com/in/nishchay-tiwari-000001/}{LinkedIn}}} $\cdot$ 
+  %\textcolor{sectcol}{\textbf{\href{https://github.com/nishchaycfd}{GitHub}}} $\cdot$
+  %\textcolor{sectcol}{\textbf{\href{https://nishchaycfd.wixsite.com/home}{Website}}} $\cdot$
+  \textcolor{sectcol}{\textbf{\href{mailto:tiwarinishchay1@gmail.com}{tiwarinishchay1@gmail.com}}} $\cdot$
+  +44 77787 39781
+}}
+\rhead{}
+
+%indentation is zero
+\setlength{\parindent}{0mm}
+
+%---------------------------------------------------------------------------------------------------
+%	TABLE /ARRAY DEFINITIONS
+%--------------------------------------------------------------------------------------------------- 
+
+%for layouting tables
+\usepackage{multicol}			
+\usepackage{multirow}
+
+%extended aligning of tabular cells
+\usepackage{array}
+\newcolumntype{x}[1]{>{\raggedleft\hspace{0pt}}p{#1}}
+
+%---------------------------------------------------------------------------------------------------
+%	GRAPHICS DEFINITIONS
+%--------------------------------------------------------------------------------------------------- 
+
+%for header image
+\usepackage{graphicx}
+
+%for floating figures
+\usepackage{wrapfig}
+\usepackage{float}
+%\floatstyle{boxed} 
+%\restylefloat{figure}
+
+%for drawing graphics		
+\usepackage{tikz}				
+\usetikzlibrary{shapes, backgrounds,mindmap, trees}
+
+%---------------------------------------------------------------------------------------------------
+%	Color DEFINITIONS
+%--------------------------------------------------------------------------------------------------- 
+
+\usepackage{color}
+
+%accent color
+\definecolor{sectcol}{RGB}{90,90,120}
+
+%dark background color
+\definecolor{bgcol}{RGB}{110,110,110}
+
+%light background / accent color
+\definecolor{softcol}{RGB}{225,225,225}
+
+%===================================================================================================
+%	DEFINITIONS
+%===================================================================================================
+
+%---------------------------------------------------------------------------------------------------
+% 	HEADER
+%---------------------------------------------------------------------------------------------------
+
+% remove top header line
+\renewcommand{\headrulewidth}{0pt} 
+
+%remove botttom header line
+\renewcommand{\footrulewidth}{0pt}	  	
+
+%remove pagenum
+\renewcommand{\thepage}{}	
+
+%remove section num		
+\renewcommand{\thesection}{}			
+
+%---------------------------------------------------------------------------------------------------
+% 	ARROW GRAPHICS in Tikz
+%---------------------------------------------------------------------------------------------------
+
+% a six pointed arrow poiting to the left
+\newcommand{\tzlarrow}{(0,0) -- (0.2,0) -- (0.3,0.2) -- (0.2,0.4) -- (0,0.4) -- (0.1,0.2) -- cycle;}	
+
+% include the left arrow into a tikz picture
+% param1: fill color
+%
+\newcommand{\larrow}[1]{
+  \begin{tikzpicture}[scale=0.58]
+    \filldraw[fill=#1!100,draw=#1!100!black]  \tzlarrow
+  \end{tikzpicture}
+}
+
+% a six pointed arrow poiting to the right
+\newcommand{\tzrarrow}{ (0,0.2) -- (0.1,0) -- (0.3,0) -- (0.2,0.2) -- (0.3,0.4) -- (0.1,0.4) -- cycle;}
+
+% include the right arrow into a tikz picture
+% param1: fill color
+%
+\newcommand{\rarrow}{
+  \begin{tikzpicture}[scale=0.7]
+    \filldraw[fill=sectcol!100,draw=sectcol!100!black] \tzrarrow
+  \end{tikzpicture}
+}
+%---------------------------------------------------------------------------------------------------
+%	custom sections
+%---------------------------------------------------------------------------------------------------
+
+% create a coloured box with arrow and title as cv section headline
+% param 1: section title
+%
+\newcommand{\cvsection}[1]{
+  \vspace{15pt}
+  \colorbox{sectcol}{\mystrut \makebox[1\linewidth][l]{
+    \larrow{bgcol} \hspace{-8pt} \larrow{bgcol} \hspace{-8pt} 
+    \larrow{bgcol}\textcolor{white}{\textbf{#1}}\hspace{4pt}
+  }}\\
+}
+
+%create a coloured arrow with title as cv meta section section
+% param 1: meta section title
+%
+\newcommand{\metasection}[2]{
+  \begin{tabular*}{1\textwidth}{p{2.4cm} p{11cm}}
+    \larrow{bgcol} \normalsize{\textcolor{sectcol}{#1}}&#2\\[10pt]
+  \end{tabular*}
+}
+
+%---------------------------------------------------------------------------------------------------
+%	 CV EVENT
+%---------------------------------------------------------------------------------------------------
+
+% creates a stretched box as cv entry headline followed by two paragraphs
+% param 1:	event time i.e. 2014 or 2011-2014 etc.
+% param 2:	event name (what did you do?)
+% param 3:	institution (where did you work / study)
+%
+\newcommand{\cvevent}[3]{
+  \begin{tabular*}{1\textwidth}{p{2cm} p{7.7cm} x {7.0cm}}
+    \textcolor{bgcol}{#1} & \textbf{#2} & \vspace{2.5pt}\textcolor{sectcol}{#3}
+  \end{tabular*}
+  \vspace{-4pt}
+  \textcolor{softcol}{\hrule}
+  \vspace{10pt}
+}
+
+% creates a stretched box as cv entry detail 
+% param 1:	information describing the event
+%
+\newcommand{\cvdetail}[1]{
+  \begin{tabular*}{1\textwidth}{p{2cm} p{14.5cm}}
+    & \larrow{bgcol}  #1\\ [3pt]
+  \end{tabular*}
+}
+
+%---------------------------------------------------------------------------------------------------
+% CUSTOM STRUT FOR EMPTY BOXES
+%---------------------------------------------------------------------------------------------------
+\newcommand{\mystrut}{\rule[-.3\baselineskip]{0pt}{\baselineskip}}
+
+%===================================================================================================
+%	DOCUMENT CONTENT
+%===================================================================================================
+\title{resume}
+\begin{document}
+
+% use our custom fancy header definitions
+\pagestyle{fancy}	
+
+%---------------------------------------------------------------------------------------------------
+%	TITLE HEADLINE
+%---------------------------------------------------------------------------------------------------
+
+\vspace{-20pt}
+
+% use this for single words, e.g. CV or RESUME etc.
+\hspace{-0.25\linewidth}\colorbox{bgcol}{
+  \makebox[1.5\linewidth][c]{
+    \HUGE{\textcolor{white}{\textsc{Nishchay Tiwari}}} 
+    \textcolor{sectcol}{\rule[-1mm]{1mm}{0.9cm}} 
+    \HUGE{\textcolor{white}{\textsc{Resume}}}
+  }
+}
+
+%---------------------------------------------------------------------------------------------------
+%	HEADER IMAGE
+%---------------------------------------------------------------------------------------------------
+
+\begin{figure}[H]
+\begin{flushright}
+  \includegraphics[width=0.15\linewidth]{Screenshot from 2022-06-22 13-46-18.png}
+\end{flushright}
+\end{figure}
+
+%---------------------------------------------------------------------------------------------------
+%	META SECTION
+%---------------------------------------------------------------------------------------------------
+
+\vspace{-115pt}
+
+\metasection{Status:}{Junior Research Scientist at HR Wallingford | PhD in Civil Engineering | MS in Aeronautical Engineering}
+\newline
+\metasection{Skills:}{Proficient in Python, C++, OpenFOAM, Paraview and FreeCAD for numerical modeling, data analysis, and simulation-driven problem solving.}
+\metasection{Awards:}{Recipient of prestigious MSCA UKRI and MSCA EU funding awards, showcasing excellence in research and innovation.}
+%---------------------------------------------------------------------------------------------------
+%	SUMMARY (optional)
+%---------------------------------------------------------------------------------------------------
+
+\cvsection{SUMMARY}
+
+A scientist with a strong background in Aero/Fluid Dynamics, adept at integrating theory, experiments, and computational modeling to solve complex problems. Proven ability to optimize energy systems through data-driven analysis and innovative solutions, with a focus on advancing sustainable power technologies. Experienced in leveraging quantitative methods and global collaborations to drive impactful, scalable outcomes for a more sustainable future.
+
+%===================================================================================================
+%	CV SECTIONS AND EVENTS (MAIN CONTENT)
+%===================================================================================================
+
+%---------------------------------------------------------------------------------------------------
+%	EXPERIENCE
+%---------------------------------------------------------------------------------------------------
+\cvsection{EXPERIENCE}
+
+\cvevent{11/2023- Present}{Junior Research Scientist (MSCA-UKRI Award)}{HR Wallingford Ltd \\ Oxfordshire, UNITED KINGDOM}
+\cvdetail{Developing integrated scour dynamics tools by combining advanced Computational Fluid Dynamics (CFD) models to predict sediment transport and morphological changes around coastal structures.}
+\cvdetail{Utilizing SedFoam, a two-phase Eulerian CFD model, to simulate complex fluid-sediment interactions, including turbulence modulation, particle collisions, and shear stresses, ensuring high-fidelity predictions under varying hydrodynamic conditions.}
+\cvdetail{Validating numerical models against experimental data from HR Wallingford’s General Purpose Flume, focusing on scour evolution around cofferdams and monopiles under steady currents and wave-current interactions.}
+\cvdetail{Exploring the impact of structural geometry and flow conditions on scour patterns, contributing to the design of resilient coastal infrastructure in morphologically dynamic environments.}
+\newline
+
+\cvevent{09/2020- 09/2023}{Aerodynamics Specialist (MSCA-EU Award)}{Institute of Fluid-Flow Machinery PAN \\ Gdansk, POLAND}
+\cvdetail{Explored and compared various types of Vortex Generators, proposing innovative Rod Vortex Generators (RVGs) for wind turbine blades to reduce flow separation.}
+\cvdetail{Conducted RANS and LES simulations in OpenFOAM to analyze vortical structures generated by RVGs, validating results with wind tunnel experiments from TU Delft, Netherlands.}
+\cvdetail{Collaborated internationally with institutions such as Universidad Politécnica de Madrid (Spain) for urban LES studies, Siemens Gamesa Renewable Energy (Denmark) for VG benchmarking, and Technical University of Athens (Greece) for adjoint-based shape optimization in OpenFOAM.}
+\newline
+
+\cvevent{07/2022- 08/2022}{Visiting Researcher}{von Karman Institute of Fluid Dynamics \\ Sint-Genesius-Rode, BELGIUM}
+\cvdetail{Developed a Large Eddy Simulation (LES) model in OpenFOAM to analyze airfoil-wind tunnel interactions, capturing velocity disturbances caused by their aerodynamic coupling.}
+\newline
+
+\cvevent{09/2019- 03/2020}{Fluid Dynamics Research Intern}{Kamstrup A/S \\ Skanderborg, DENMARK}
+\cvdetail{Developed numerical techniques to automate the computation of flow meter geometries under various inflow configurations, enhancing design efficiency.}
+\cvdetail{Conducted LDV measurements on 3D-printed specimens in a flow bench, post-processing data using Tecplot for detailed analysis.}
+\cvdetail{Performed CFD simulations in OpenFOAM, validating results with LDV experimental data to ensure accuracy and reliability.}
+
+\newpage
+%---------------------------------------------------------------------------------------------------
+%	EDUCATION SECTION
+%---------------------------------------------------------------------------------------------------
+\cvsection{EDUCATION}
+
+
+\cvevent{04/2024- Present}{Industrial PhD Degree (ARC), Civil Engineering}{Open University, \\Milton Keynes, UNITED KINGDOM}
+\cvdetail{Supervisor: Professor Michiel AF Knaapen, Principal Scientist, Department of Coasts and Oceans}
+\cvdetail{Thesis: Multi-model Approach to Scour in Dynamic Areas: Development of an Integrated Scour Dynamics Tool Using SedFoam, a Two-Phase Eulerian Computational Fluid Dynamics (CFD) Model.}
+\newline
+
+\cvevent{10/2016- 10/2019}{Master Degree, Aeronautical Engineering}{Politecnico Di Milano, \\Milan, ITALY}
+\cvdetail{Supervisor: Professor Augusto Della Torre, Associate Professor, Department of Energy}
+\cvdetail{Thesis: Study and model the micro-plate Heat Exchanger using Computational Fluid Dynamics by creating meshing and solution setup for dimple-type geometry using a conjugate heat transfer solver.}
+\cvdetail{Major Subjects: Computational and Experimental Fluid Dynamics, Aerodynamics, Turbomachinery Design, Aircraft Structures}
+\newline
+
+\cvevent{07/2012- 06/2016}{Bachelor Degree, Aerospace Engineering}{UPES, \\Dehradun, INDIA}
+\cvdetail{Major Subjects: Aerodynamics, Aircraft Propulsion, Flight Performance, Orbital Mechanics, Avionics.}
+
+\cvsection{JOURNAL ARTICLES}
+
+\cvdetail{Elagamy, Mohanad, \textbf{Nishchay Tiwari}, Cristobal Gallego-Castillo, Alvaro Cuerva-Tejero, Oscar Lopez-Garcia, and Sergio Avila-Sanchez. "Large Eddy Simulation of the Flow Around a High-Rise Building with Special Focus on the Two-Points Two-Times Second Order Statistics of the Velocity Field." \textit{Journal of Wind Engineering and Industrial Aerodynamics}, 254, 2024, 105914.}
+
+\cvdetail{\textbf{Nishchay Tiwari}, Pawel Flaszynski, Thanushree Suresh, and Oskar Szulc. "Comparison of Flow Structures for Vane and Rod Type Vortex Generators on a Wind Turbine Airfoil." \textit{International Journal of Numerical Methods for Heat \& Fluid Flow}, 33(4), 2023, pp. 1458–1474.}
+
+\cvsection{CONFERENCE PROCEEDINGS}
+
+\cvdetail{\textbf{Nishchay Tiwari}, Michael Knaapen, Sina Haeri, and Tomasso Attili. " Numerical Investigation of Scour Evolution around Monopile Structures using SedInterFoam." Presented at \textit{DMPCO2025}, Patras, Greece.}
+
+\cvdetail{\textbf{Nishchay Tiwari}, Michael Knaapen, Sina Haeri, and Richard Whitehouse.  "Numerical Modelling for Scour near Cofferdams using Eulerian Two-phase Flow Model." Presented at \textit{Coastal Dynamics 2025}, Aveiro, Portugal.}
+
+\cvdetail{\textbf{Nishchay Tiwari}, Pawel Flaszynski, Thanushree Suresh, and Oskar Szulc. "Numerical Analysis and Comparison of Flow Structures Produced by Vane and Rod Type Vortex Generators on a Wind Turbine Airfoil" Presented at \textit{AERO2022 3AF}, Toulouse, France.}
+
+
+
+\cvsection{LANGUAGES}
+\cvdetail{\textbf{English}: Full professional proficiency}
+\cvdetail{\textbf{Hindi}: Native or bilingual proficiency}
+\cvdetail{\textbf{Italian}: Basic proficiency}
+\cvdetail{\textbf{Polish}: Basic proficiency}
+
+
+
+
+
+
+
+
+
+%---------------------------------------------------------------------------------------------------
+%	ARTIFICIAL FOOTER (fancy footer cannot exceed linewidth) 
+%---------------------------------------------------------------------------------------------------
+
+\null
+\vspace*{\fill}
+\hspace{-0.25\linewidth}\colorbox{bgcol}{
+  \makebox[1.5\linewidth][c]{
+    \mystrut \small 
+    \textcolor{white}{
+      \href{https://www.linkedin.com/in/nishchay-tiwari-000001}
+      {LINKEDIN}
+    } $\cdot$ 
+    
+  }
+}
+
+%===================================================================================================
+%	DOCUMENT END
+%===================================================================================================
+\end{document}
